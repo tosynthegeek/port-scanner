@@ -9,12 +9,13 @@ use std::thread;
 const MAX: u16 = 65535;
 struct Arguments {
     flag: String,
-    ipaddr: IpAddr,
+    ipaddr: IpAddr, //IpAddr is an enum for IP address types which could be either v4 or v6 
     thread: u16,
 }
 
 impl Arguments {
     fn new(args: &[String]) -> Result<Arguments, &'static str> {
+        // Check if we receive the correct number of arguments
         if args.len() < 2 {
             return Err("not enough arguments");
         } else if args.len() > 4 {
@@ -77,6 +78,7 @@ fn scan(tx: Sender<u16>, start_port: u16, addr: IpAddr, num_thread: u16) {
     }
 }
 fn main() {
+    // Take arguments and put them into a vector of strings
     let args: Vec<String> = env::args().collect();
     let program = args[0].clone();
     let arguments = Arguments::new(&args).unwrap_or_else(|err| {
